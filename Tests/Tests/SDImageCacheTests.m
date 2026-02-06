@@ -515,7 +515,11 @@ static NSString *kTestImageKeyPNG = @"TestImageKey.png";
         UIImage *diskImage = [SDImageCache.sharedImageCache imageFromDiskCacheForKey:kAnimatedImageKey5];
         // Should save to GIF
         expect(diskImage.sd_isAnimated).beTruthy();
-        expect(diskImage.sd_imageFormat).equal(SDImageFormatGIF);
+        if (@available(iOS 12.0, tvOS 12.0, macOS 10.14, watchOS 5.0, *)) {
+            expect(diskImage.sd_imageFormat).equal(SDImageFormatPNG);
+        } else {
+            expect(diskImage.sd_imageFormat).equal(SDImageFormatGIF);
+        }
         [expectation5 fulfill];
     }];
     

@@ -893,14 +893,16 @@ withLocalImageURL:(NSURL *)imageUrl
 - (NSDictionary *)gainMapFromImageSource:(CGImageSourceRef)source {
     if (@available(macOS 15, iOS 18, tvOS 18, watchOS 11, *)) {
         CFDictionaryRef ISOGainMap = CGImageSourceCopyAuxiliaryDataInfoAtIndex(source, 0, kCGImageAuxiliaryDataTypeISOGainMap);
+        if (ISOGainMap) {
+            return (__bridge_transfer NSDictionary *)ISOGainMap;
+        }
         CFDictionaryRef HDRGainMap = CGImageSourceCopyAuxiliaryDataInfoAtIndex(source, 0, kCGImageAuxiliaryDataTypeHDRGainMap);
-        NSDictionary *result = ISOGainMap ? (__bridge_transfer NSDictionary *)ISOGainMap : (__bridge_transfer NSDictionary *)HDRGainMap;
-        if (HDRGainMap) CFRelease(HDRGainMap);
-        if (ISOGainMap) CFRelease(ISOGainMap);
-        return result;
-    } else {
+        if (HDRGainMap) {
+            return (__bridge_transfer NSDictionary *)HDRGainMap;
+        }
         return nil;
     }
+    return nil;
 }
 
 #pragma mark - Utils

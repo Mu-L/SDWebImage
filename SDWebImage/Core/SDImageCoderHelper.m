@@ -175,6 +175,12 @@ static const CGFloat kDestSeemOverlap = 2.0f;   // the numbers of pixels to over
 #else
     
     NSMutableData *imageData = [NSMutableData data];
+    SDImageFormat format;
+    if (@available(iOS 12.0, tvOS 12.0, macOS 10.14, watchOS 5.0, *)) {
+        format = SDImageFormatPNG;
+    } else {
+        format = SDImageFormatGIF;
+    }
     CFStringRef imageUTType = [NSData sd_UTTypeFromImageFormat:SDImageFormatGIF];
     // Create an image destination. GIF does not support EXIF image orientation
     CGImageDestinationRef imageDestination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)imageData, imageUTType, frameCount, NULL);
