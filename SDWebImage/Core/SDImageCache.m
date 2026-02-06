@@ -276,7 +276,11 @@ static NSString * _defaultDiskCacheDirectory;
             if (format == SDImageFormatUndefined) {
                 // If image is animated, use GIF (APNG may be better, but has bugs before macOS 10.14)
                 if (image.sd_imageFrameCount > 1) {
-                    format = SDImageFormatGIF;
+                    if (@available(iOS 12.0, tvOS 12.0, macOS 10.14, watchOS 5.0, *)) {
+                        format = SDImageFormatPNG;
+                    } else {
+                        format = SDImageFormatGIF;
+                    }
                 } else {
                     // If we do not have any data to detect image format, check whether it contains alpha channel to use PNG or JPEG format
                     format = [SDImageCoderHelper CGImageContainsAlpha:image.CGImage] ? SDImageFormatPNG : SDImageFormatJPEG;
