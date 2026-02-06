@@ -1,3 +1,13 @@
+## [5.21.6 - 5.21 Patch on Feb 6th 2026]
+See [all tickets marked for the 5.21.6 release](https://github.com/SDWebImage/SDWebImage/milestone/148)
+
+### Fixes
+- Fix the issue that thumbnail decoding will store the fulll image data into thumbnail key, which effect next time query from disk #3866
+
+### Changes
+- Image cache query API for disk type, no longer write back image to memory cache automatically. Call `storeImageToMemory` if you need.
+- Added support to encode APNG instead of GIF, when no animated image format provided #3867
+
 ## [5.21.5 - 5.21 Patch on Dec 3rd 2025]
 See [all tickets marked for the 5.21.5 release](https://github.com/SDWebImage/SDWebImage/milestone/147)
 
